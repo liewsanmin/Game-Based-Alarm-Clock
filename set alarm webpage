@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" 
+	type="text/javascript" charset="utf­8"></script>
+<body bgcolor="#E6E6FA">
+		Current Alarm Time:<span id="alarmHour"></span>:<span id="alarmMinute"></span>  Mode: <span id="alarmMode"></span> <br>
+		
+		<button id="connectbutton" onclick="start()">Refresh Data</button>
+		
+		<script type="text/javascript">
+		function start(objButton) {
+			var deviceID = "400034001547343339383037";
+			var accessToken = "7b8638688ccd0aea874f54b62640aa4b3f3e5e2f";
+			var baseURL = "https://api.particle.io/v1/devices/"
+
+			var varName = "alarmHour";
+
+			requestURL = baseURL + deviceID + "/" + varName + "/?access_token=" + accessToken;
+			$.getJSON(requestURL, function(json) {
+				document.getElementById("alarmHour").innerHTML = + json.result;
+			});
+
+			var varName = "alarmMinute";
+			requestURL = baseURL + deviceID + "/" + varName + "/?access_token=" + accessToken;
+			$.getJSON(requestURL, function(json){
+				document.getElementById("alarmMinute").innerHTML = json.result;
+			});
+
+			var varName = "alarmMode";
+			requestURL = baseURL + deviceID + "/" + varName + "/?access_token=" + accessToken;
+			$.getJSON(requestURL, function (json) {
+			    document.getElementById("alarmMode").innerHTML = json.result;
+			});
+		}
+		</script>
+		<br>
+		
+		<br>
+		<form action="https://api.particle.io/v1/devices/400034001547343339383037/setAlarmKey?access_token=7b8638688ccd0aea874f54b62640aa4b3f3e5e2f" method="POST">
+            <input type="submit" value="Set Alarm Time"> <input type="text" name="args" value="HHMM"/><br />
+        </form>
+        <br />
+        <form action="https://api.particle.io/v1/devices/400034001547343339383037/setModeKey?access_token=7b8638688ccd0aea874f54b62640aa4b3f3e5e2f" method="POST">
+             Enable the alarm: <input type="radio" name="args" value="1" /><br />
+             Disable the alarm: <input type="radio" name="args" value="0" /><br />
+            <input type="submit" value="Update Alarm">
+        </form>
+	</body>	
+
+</html>
